@@ -1,21 +1,7 @@
-<style>
-  #tweet {
-    width: 400px !important;
-  }
-
-  #tweet iframe {
-    border: none !important;
-    box-shadow: none !important;
-  }
-</style>
-
 <div id="container"></div>
-
-<script src="script.js" type="text/javascript"></script>
 
 <script sync src="https://platform.twitter.com/widgets.js"></script>
 <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-
 <script>
 var tiles = [];
 
@@ -49,3 +35,14 @@ jQuery(tweets).each( function( t, tweet ) {
     });
 
 </script>
+
+<style>
+  #tweet {
+    width: 400px !important;
+  }
+
+  #tweet iframe {
+    border: none !important;
+    box-shadow: none !important;
+  }
+</style>
