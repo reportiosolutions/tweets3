@@ -8,37 +8,44 @@
 <div id="container"></div>
 <script>
 
+$.getJSON( 'https://storage.googleapis.com/twitter-app-bucket/top20.json', function( data ) {
+		var TweetList = [];
+    for(i = 0; i < data.length; i++)
+    {
+    TweetList.push(data[i].ID);
+    }
 
-var tiles = [];
+    var tiles = [];
 
-var TweetList = ["1492475930102706178","1492467621945556992","1492525209781518338","1492577601508024329","1492493577267646467","1492472825059282947","1492497216111620107","1492517600466808834","1492380818521661441","1492292604460945410","1492474306886086662","1492374152040390657","1492366460441800713","1492494378228752384","1492492554104975366","1492529981750194183","1492472832009195520","1492501500777713673","1492470476874174464","1492474264041238532"];
+    function populateTiles(limit) {
+    for (var i in TweetList) {
+    /*     tiles.push( '<div class="tweet" id= "' + TweetList[i] + '">TOP TWEET NO ' + i + 1 +' </div>');*/    
+    tiles.push( '<div class="tweet" id= "' + TweetList[i] + '"></div>');
+    }
+    }
+    populateTiles(TweetList.length);
 
-function populateTiles(limit) {
-for (var i in TweetList) {
-/*     tiles.push( '<div class="tweet" id= "' + TweetList[i] + '">TOP TWEET NO ' + i + 1 +' </div>');*/    
-tiles.push( '<div class="tweet" id= "' + TweetList[i] + '"></div>');
-}
-}
-populateTiles(TweetList.length);
-
-$('#container').html(tiles.join(''));
+    $('#container').html(tiles.join(''));
 
 
-// based on http://ctrlq.org/code/19933-embed-tweet-with-javascript
-var tweets = jQuery(".tweet");
-jQuery(tweets).each( function( t, tweet ) { 
-    var id = jQuery(this).attr('id');
- 
-    twttr.widgets.createTweet(
-      id, tweet, 
-      {
-        conversation : 'none',    // or all
-        cards        : 'hidden',  // or visible 
-        linkColor    : '#cc0000', // default is blue
-        theme        : 'light'    // or dark
-      });
+    // based on http://ctrlq.org/code/19933-embed-tweet-with-javascript
+    var tweets = jQuery(".tweet");
+    jQuery(tweets).each( function( t, tweet ) { 
+        var id = jQuery(this).attr('id');
 
-    });
+        twttr.widgets.createTweet(
+          id, tweet, 
+          {
+            conversation : 'none',    // or all
+            cards        : 'hidden',  // or visible 
+            linkColor    : '#cc0000', // default is blue
+            theme        : 'light'    // or dark
+          });
+
+        });
+});
+
+
 </script>
 </body>
 <style>	
