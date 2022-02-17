@@ -1,51 +1,52 @@
 <html>
 <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script sync src="https://platform.twitter.com/widgets.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script sync src="https://platform.twitter.com/widgets.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
 </head>
 <body>
+<input type="date">
 <div id="container"></div>
 <script>
+$(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: "https://storage.googleapis.com/twitter-app-bucket/Top20python.csv",
+        dataType: "text",
+        async: false,
+        success: function(data) {
+            /* console.log(data) */
+            var data = $.csv.toObjects(data)
+            /* console.log(data) */
+            var TweetList = [];
+            for (i = 0; i < data.length; i++) {
+                TweetList.push(data[i].ID);
+            };
+            var tiles = [];
+            function populateTiles(limit) {
+                for (var i in TweetList) {
+                    /*     tiles.push( '<div class="tweet" id= "' + TweetList[i] + '">TOP TWEET NO ' + i + 1 +' </div>');*/
+                    tiles.push('<div class="tweet" id= "' + TweetList[i] + '"></div>');
+                }
+            }
+            populateTiles(TweetList.length);
+            $('#container').html(tiles.join(''));
 
-$.getJSON( 'https://storage.googleapis.com/twitter-app-bucket/top20.json', function( data ) {
-		var TweetList = [];
-    for(i = 0; i < data.length; i++)
-    {
-    TweetList.push(data[i].ID);
-    }
-
-    var tiles = [];
-
-    function populateTiles(limit) {
-    for (var i in TweetList) {
-    /*     tiles.push( '<div class="tweet" id= "' + TweetList[i] + '">TOP TWEET NO ' + i + 1 +' </div>');*/    
-    tiles.push( '<div class="tweet" id= "' + TweetList[i] + '"></div>');
-    }
-    }
-    populateTiles(TweetList.length);
-
-    $('#container').html(tiles.join(''));
-
-
-    // based on http://ctrlq.org/code/19933-embed-tweet-with-javascript
-    var tweets = jQuery(".tweet");
-    jQuery(tweets).each( function( t, tweet ) { 
-        var id = jQuery(this).attr('id');
-
-        twttr.widgets.createTweet(
-          id, tweet, 
-          {
-            conversation : 'none',    // or all
-            cards        : 'hidden',  // or visible 
-            linkColor    : '#cc0000', // default is blue
-            theme        : 'light'    // or dark
-          });
-
-        });
+            // based on http://ctrlq.org/code/19933-embed-tweet-with-javascript
+            var tweets = jQuery(".tweet");
+            jQuery(tweets).each(function(t, tweet) {
+                var id = jQuery(this).attr('id');
+                twttr.widgets.createTweet(
+                    id, tweet, {
+                        conversation: 'none', // or all
+                        cards: 'hidden', // or visible 
+                        linkColor: '#cc0000', // default is blue
+                        theme: 'light' // or dark
+                    });
+            });
+        }
+    });
 });
-
-
 </script>
 </body>
 <style>	
@@ -66,3 +67,4 @@ $.getJSON( 'https://storage.googleapis.com/twitter-app-bucket/top20.json', funct
 	}
 	
 </style>
+</html>
